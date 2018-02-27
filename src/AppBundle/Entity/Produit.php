@@ -2,36 +2,48 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
 * @ORM\Table(name="produit")
 * @ORM\Entity
+* @UniqueEntity("ref", message="La ref doit être unique.")
 */
 
-class Produit {
-    
 
-        /**
-    * @ORM\Column(name="id_produit",type="integer")
-    * @ORM\Id
-    * @ORM\GeneratedValue(strategy="IDENTITY")
+
+class Produit {
+    /**
+    *@ORM\Column(name="id_produit",type="integer")
+    *@ORM\Id
+    *@ORM\GeneratedValue(strategy="IDENTITY")
     */
     private $id_produit;
     
     /**
-    * @ORM\Column(name="nom",type="string",length=50,nullable=true)
-    */
+    *@ORM\Column(name="nom",type="string",length=50,nullable=true)
+    *@Assert\Type(type="string")
+    *@Assert\Length(max="50",maxMessage="nom : au plus 50 car.")
+    *@Assert\NotBlank(message="Le nom est obligatoire.")
+     */
     private $nom;
     
     /**
-    * @ORM\Column(name="ref",type="string",length=10,nullable=true)
+    *@ORM\Column(name="ref",type="string",length=10,nullable=true)
+    *@Assert\Type(type="string")
+    *@Assert\Length(min="3",max="10",minMessage="Ref : au moins 3 car.",maxMessage="Ref : au plus 10 car.")
+    *@Assert\NotBlank(message="La ref est obligatoire.")
     */
     private $ref;
     
     /**
-    * @ORM\Column(name="prix",type="decimal",precision=8,scale=2,nullable=true)
+    *@ORM\Column(name="prix",type="decimal",precision=8,scale=2,nullable=true)
+    *@Assert\Type(type="numeric",message="Le prix doit être un nombre.")
+    *@Assert\GreaterThan(value="0",message="Le prix doit être strictement positif.")
     */
     private $prix;
+   
     
     function getId_produit() {
         return $this->id_produit;

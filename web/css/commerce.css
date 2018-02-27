@@ -127,3 +127,7 @@ form #photo{
 h1{
     text-align:center;
 }
+button{
+    height: 50px;
+    width:150px;
+}

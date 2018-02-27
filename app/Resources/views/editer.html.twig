@@ -10,39 +10,19 @@
 {% block body %} 
     <div id="container">
         <h1>Editer un produit</h1>
-        <div class="erreur"><?= implode('<br/>', $tabErreur) ?></div>
-        <form name="form1" action="editer.php" method="post" enctype="multipart/form-data">
-            <input type="hidden" name ="id_produit" value="{{produit.id_produit}}"/>
-            <div class="item">
-                <label> Reference</label>
-                <input name="ref" value="{{produit.ref}}"/>
-            </div>
-            <div class="item">
-                <label> Nom</label>
-                <input name="nom" value="{{produit.nom}}/>
-                       </div>
-                       <div class="item">
-                       <label> Prix</label>
-                <input name="prix" value="{{produit.prix}}"/>
-            </div>
-            <label><input type="button" value="Annuler" onclick="location = 'index.html.twig'"/></label>	
-            <input name="submit" type="submit" value="Valider"/>
-            <div id="vignetteEditer">
-                <label>Photo</label>
-                <input id="photo" type="file" name="photo"/>
-                <input type="button" value="Parcourir..." onclick="this.form.photo.click()"/>
-                <div id="vignette" style=" background-image: url('../img/prod_<?=$idImg?>_v.jpg?alea=<?=rand()?>')"></div>
-            </div>
-        </form>
+         {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="item">{{ form_errors(form) }}</div>
+        
+        <input type="button" value="annuler" onclick="location='{{path('accueil')}}'"/>
+        {{ form_end(form) }}
     </div>
-
-
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src={{assest('js/editer.js')}}></script>
-    <script type="text/javascript" src={{assest('js/AjaxPromise.js'}}></script>
-    <script type="text/javascript" src={{assest('js/Ajax.js')}}></script>
+    <script type="text/javascript" src={{asset('js/editer.js')}}></script>
+    <script type="text/javascript" src={{asset('js/AjaxPromise.js')}}></script>
+    <script type="text/javascript" src={{asset('js/Ajax.js')}}></script>
     <script>
         const MAX_FILE_SIZE = <?= Upload::maxFileSize() ?>;
     const UPLOAD_ERR_FORM_SIZE = "<?= I18n::get(UPLOAD_ERR_FORM_SIZE) ?>";

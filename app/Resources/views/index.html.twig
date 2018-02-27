@@ -10,25 +10,24 @@
 {% block body %} 
 
     <h1>Produits</h1>
-    <div id="container">
-    {% for produit in tabproduit %}
-        {% set idImg = file_exists('img/prod_'~produit.id_produit~'_v.jpg') ? produit.id_produit : 0 %}
-        <div class="blocProduit" onclick="detail({{ produit.id_produit }})">
-            <img src="{{asset('img/prod_'~idImg~'_v.jpg?alea='~random())}}"/> 
-            <div class="nom">{{ produit.nom }}</div>
-            <div class="prix">{{ produit.prix }}</div>
-            <input type="button" value="modifier" onclick="editerProduit(event, produit.id_produit)">
-            <input type="button" value="supprimer" onclick="supprimerProduit(event, produit.id_produit)">
-        </div>
-         
-{% endfor %}
-</div>
+    
+        <button onclick="redirection()"> ajouter </button>
+<div id="container">
+        {% for produit in tabproduit %}
+            {% set idImg = file_exists('img/prod_'~produit.id_produit~'_v.jpg') ? produit.id_produit : 0 %}
+            <div class="blocProduit" onclick="detail({{ produit.id_produit }} )">
+                <img src="{{asset('img/prod_'~idImg~'_v.jpg?alea='~random())}}"/> 
+                <div class="nom">{{ produit.nom }}</div>
+                <div class="prix">{{ produit.prix }}</div>
+                <button onclick="modifier(event, {{ produit.id_produit }} )"> modifier </button>
+                <button onclick="supprimerProduit(event, {{ produit.id_produit }} )"> supprimer </button>
+            </div>
+
+        {% endfor %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript" src={{asset('js/index.js')}}></script>
     <script type="text/javascript" src={{asset('js/Ajax.js')}}></script>
 {% endblock %}
-
-
-
