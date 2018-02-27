@@ -1,0 +1,16 @@
+{% extends 'base.html.twig'%} 
+
+{% block title %}produit indisponible{% endblock %} 
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/commerce.css') }}" type="text/css" />
+{% endblock %}
+
+
+{% block body %} 
+    <div id="container">
+        <div class="retour"><a href={{path ('accueil')}}>Retour</a></div>
+        <h1>Produit indisponible</h1>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html.twig'%} 
+
+{% block title %}editer un produit{% endblock %} 
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/commerce.css') }}" type="text/css" />
+{% endblock %}
+
+
+{% block body %} 
+    <div id="container">
+        <h1>Editer un produit</h1>
+        <div class="erreur"><?= implode('<br/>', $tabErreur) ?></div>
+        <form name="form1" action="editer.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" name ="id_produit" value="{{produit.id_produit}}"/>
+            <div class="item">
+                <label> Reference</label>
+                <input name="ref" value="{{produit.ref}}"/>
+            </div>
+            <div class="item">
+                <label> Nom</label>
+                <input name="nom" value="{{produit.nom}}/>
+                       </div>
+                       <div class="item">
+                       <label> Prix</label>
+                <input name="prix" value="{{produit.prix}}"/>
+            </div>
+            <label><input type="button" value="Annuler" onclick="location = 'index.html.twig'"/></label>	
+            <input name="submit" type="submit" value="Valider"/>
+            <div id="vignetteEditer">
+                <label>Photo</label>
+                <input id="photo" type="file" name="photo"/>
+                <input type="button" value="Parcourir..." onclick="this.form.photo.click()"/>
+                <div id="vignette" style=" background-image: url('../img/prod_<?=$idImg?>_v.jpg?alea=<?=rand()?>')"></div>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src={{assest('js/editer.js')}}></script>
+    <script type="text/javascript" src={{assest('js/AjaxPromise.js'}}></script>
+    <script type="text/javascript" src={{assest('js/Ajax.js')}}></script>
+    <script>
+        const MAX_FILE_SIZE = <?= Upload::maxFileSize() ?>;
+    const UPLOAD_ERR_FORM_SIZE = "<?= I18n::get(UPLOAD_ERR_FORM_SIZE) ?>";
+const UPLOAD_ERR_WRONG_EMPTY_FILE = "<?= I18n::get('UPLOAD_ERR_WRONG_EMPTY_FILE') ?>";// les quotes sont nécéssaire pour string
+        const IMAGE_ERR_WRONG_IMAGE_TYPE = "<?= I18n::get('IMAGE_ERR_WRONG_IMAGE_TYPE') ?>";
+        </script>
+{% endblock %}
+
+
+
