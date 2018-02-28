@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {//se declenche à la fin de chargement de la page avec une array function
     var vignette = document.querySelector('#vignette');
-    document.querySelector('#photo').onchange = function () {
+    document.querySelector('#produit_image').onchange = function () {
         vignette.innerHTML = '';
         var fichiers = this.files;
         if (fichiers.length !== 1) {
@@ -8,13 +8,13 @@ window.addEventListener('DOMContentLoaded', () => {//se declenche à la fin de c
         }
         var fichier = fichiers[0];
         if (!fichier.size) {
-            return alert(UPLOAD_ERR_WRONG_EMPTY_FILE);
+            return alert("UPLOAD_ERR_WRONG_EMPTY_FILE");
         }
-        if (fichier.size > MAX_FILE_SIZE) {
-            return alert(UPLOAD_ERR_FORM_SIZE);
+        if (fichier.size > 10000000) {
+            return alert("UPLOAD_ERR_FORM_SIZE");
         }
         if (fichier.type !== 'image/jpeg') {
-            return alert(IMAGE_ERR_WRONG_IMAGE_TYPE);
+            return alert("IMAGE_ERR_WRONG_IMAGE_TYPE");
         }
         var reader = new FileReader();
         reader.onload = function () {

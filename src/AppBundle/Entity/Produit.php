@@ -15,6 +15,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Produit {
     /**
+     * @Assert\File(mimeTypes={"image/jpeg"})
+     */
+    private $image;
+    
+        /**
     *@ORM\Column(name="id_produit",type="integer")
     *@ORM\Id
     *@ORM\GeneratedValue(strategy="IDENTITY")
@@ -75,5 +80,13 @@ class Produit {
 
     function setPrix($prix) {
         $this->prix = $prix;
+    }
+    
+    function getImage() {
+        return $this->image;
+    }
+    
+    function setImage($image) {
+        $this->image = $image;
     }
 }

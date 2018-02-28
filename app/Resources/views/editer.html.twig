@@ -5,24 +5,40 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/commerce.css') }}" type="text/css" />
 {% endblock %}
-
+{% set idImg = file_exists('img/prod_'~form.vars['value'].id_produit~'_v.jpg') ? form.vars['value'].id_produit : 0 %}
 
 {% block body %} 
     <div id="container">
         <h1>Editer un produit</h1>
-         {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <div class="item">{{ form_errors(form) }}</div>
+        {{ form_start(form) }}
+		<div class="erreur">
+			{{ form_errors(form) }}
+			{{ form_errors(form.nom) }}
+			{{ form_errors(form.ref) }}
+			{{ form_errors(form.prix) }}
+		</div>
+		<div class="item">
+			{{ form_label(form.nom) }}
+			{{ form_widget(form.nom) }}
+		</div>
+		<div class="item">
+			{{ form_label(form.ref) }}
+			{{ form_widget(form.ref) }}
+		</div>
+		<div class="item">
+			{{ form_label(form.prix) }}
+			{{ form_widget(form.prix) }}
+		</div>
         
         <input type="button" value="annuler" onclick="location='{{path('accueil')}}'"/>
+        {{form_widget(form.go)}}
         {{ form_end(form) }}
+         <div id="vignette" style=" background-image: url('{{asset('img/prod_'~idImg~'_v.jpg?alea='~random())}}')"></div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript" src={{asset('js/editer.js')}}></script>
-    <script type="text/javascript" src={{asset('js/AjaxPromise.js')}}></script>
-    <script type="text/javascript" src={{asset('js/Ajax.js')}}></script>
     <script>
         const MAX_FILE_SIZE = <?= Upload::maxFileSize() ?>;
     const UPLOAD_ERR_FORM_SIZE = "<?= I18n::get(UPLOAD_ERR_FORM_SIZE) ?>";
