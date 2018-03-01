@@ -7,7 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Produit;
 use AppBundle\Form\Type\ProduitType;
-use AppBundle\Util\Image; 
+use AppBundle\Util\Image;
+use Doctrine\ORM\NoResultException;
 
 class IndexController extends Controller {
 
@@ -15,9 +16,9 @@ class IndexController extends Controller {
      * @Route("/produit/all1", name="accueil")
      */
     public function all1Action() {
-        $tabproduit = $this->getDoctrine()->getRepository("AppBundle:Produit")->findBy([], ['nom' => 'ASC']);
+        $tabCategorie = $this->getDoctrine()->getRepository("AppBundle:Categorie")->findBy([], ['nom' => 'ASC']); //findBy avec tableau vide = findByAll
         // replace this example code with whatever you need
-        return $this->render('index.html.twig', ['tabproduit' => $tabproduit]);
+        return $this->render('index.html.twig', ['tabCategorie' => $tabCategorie]);
     }
 
     /**
@@ -25,10 +26,13 @@ class IndexController extends Controller {
      */
     public function detailAction($id_produit) {
         if (filter_var($id_produit, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]])) {
-            $produit = $this->getDoctrine()->getRepository("AppBundle:Produit")->find($id_produit);
-            if ($produit) {
-                return $this->render('detail.html.twig', ['produit' => $produit]); //chemin à partir de twig
+            try {
+                $produit = $this->getDoctrine()->getRepository("AppBundle:Produit")->findJoin($id_produit);
+            } catch (NoResultException $e) {
+                return $this->render('indispo.html.twig');
             }
+            //$produit = $this->getDoctrine()->getRepository("AppBundle:Produit")->find($id_produit);
+            return $this->render('detail.html.twig', ['produit' => $produit]); //chemin à partir de twig
         }
         return $this->render('indispo.html.twig');
     }
@@ -57,32 +61,34 @@ class IndexController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($produit);
             $em->flush();
-            if($produit->getImage()){
-                $image= new Image($produit->getImage()->getPathName());
-                $repImg = $this->container->getParameter('kernel.root_dir').'\..\web\img';
-                $image->copier(150,150, "{$repImg}/prod_{$produit->getId_produit()}_v.jpg", Image::REDIM_COVER);
-                $image->copier(300,300, "{$repImg}/prod_{$produit->getId_produit()}_p.jpg");
+            if ($produit->getImage()) {
+                $image = new Image($produit->getImage()->getPathName());
+                $repImg = $this->container->getParameter('kernel.root_dir') . '\..\web\img';
+                $image->copier(150, 150, "{$repImg}/prod_{$produit->getId_produit()}_v.jpg", Image::REDIM_COVER);
+                $image->copier(300, 300, "{$repImg}/prod_{$produit->getId_produit()}_p.jpg");
             }
             return $this->redirectToRoute('accueil'); //sinon le client se trouve avec editer dans l'url 
         }
         return $this->render('editer.html.twig', ['form' => $form->createView()]);
     }
-     /**
+
+    /**
      * @Route("/produit/supprimer/{id_produit}", name="supprimer")
      */
-     public function supprimer($id_produit){
-         if (filter_var($id_produit, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]])) {
+    public function supprimer($id_produit) {
+        if (filter_var($id_produit, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]])) {
             $produit = $this->getDoctrine()->getRepository("AppBundle:Produit")->find($id_produit);
-             if (!$produit) {
+            if (!$produit) {
                 return $this->redirectToRoute('accueil');
             }
             $em = $this->getDoctrine()->getManager();
             $em->remove($produit);
             $em->flush();
-            $repImg = $this->container->getParameter('kernel.root_dir').'\..\web\img';
+            $repImg = $this->container->getParameter('kernel.root_dir') . '\..\web\img';
             @unlink("{$repImg}/prod_{$produit->getId_produit()}_v.jpg");
             @unlink("{$repImg}/prod_{$produit->getId_produit()}_p.jpg");
             return $this->redirectToRoute('accueil');
-         }
-     }
+        }
+    }
+
 }

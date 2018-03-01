@@ -10,20 +10,29 @@
 {% block body %} 
 
     <h1>Produits</h1>
-    
-        <button onclick="redirection()"> ajouter </button>
-<div id="container"> 
-        {% for produit in tabproduit %}
-            {% set idImg = file_exists('img/prod_'~produit.id_produit~'_v.jpg') ? produit.id_produit : 0 %}
-            <div class="blocProduit" >
-                <img src="{{asset('img/prod_'~idImg~'_v.jpg?alea='~random())}}"onclick="detail({{ produit.id_produit }} )"/> 
-                <div class="nom">{{ produit.nom }}</div>
-                <div class="prix">{{ produit.prix }}</div>
-                <button onclick="editer(event, {{ produit.id_produit }} )"> editer </button>
-                <button onclick="supprimerProduit(event, {{ produit.id_produit }} )"> supprimer </button>
-            </div>
+   
+    <div id="container"> 
+        <div id="categorie">
+            {% for categorie in tabCategorie %}
+                {% set tabProduit = categorie.tabProduit() %}
+                <div class="prod">
+                    <h2> {{ categorie.nom }}</h2>
+                    <input type="button" name="bouton" value="Ajouter" onclick="redirection(<?= $categorie->id_categorie ?>)">
+                    <br/>
+                    {% for produit in tabProduit %}
+                        {% set idImg = file_exists('img/prod_'~produit.id_produit~'_v.jpg') ? produit.id_produit : 0 %}
 
-        {% endfor %}
+                        <div class="blocProduit" >
+                            <img src="{{asset('img/prod_'~idImg~'_v.jpg?alea='~random())}}"onclick="detail({{ produit.id_produit }} )"/> 
+                            <div class="nom">{{ produit.nom }}</div>
+                            <div class="prix">{{ produit.prix }}</div>
+                            <input type="button" onclick="editer(event,      {{ produit.id_produit }} )" value="editer"/> 
+                            <input type="button" onclick="supprimerProduit(event,      {{ produit.id_produit }} )" value="supprimer"/> 
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
 

@@ -7,11 +7,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
 * @ORM\Table(name="produit")
-* @ORM\Entity
+* @ORM\Entity(repositoryClass="AppBundle\Entity\ProduitRepository")
 * @UniqueEntity("ref", message="La ref doit être unique.")
 */
-
-
 
 class Produit {
     /**
@@ -19,14 +17,19 @@ class Produit {
      */
     private $image;
     
-        /**
+    /**
     *@ORM\Column(name="id_produit",type="integer")
     *@ORM\Id
     *@ORM\GeneratedValue(strategy="IDENTITY")
     */
     private $id_produit;
     
-    /**
+     /**
+    *@ORM\Column(name="id_categorie",type="integer")
+    */
+    private $id_categorie;
+    
+        /**
     *@ORM\Column(name="nom",type="string",length=50,nullable=true)
     *@Assert\Type(type="string")
     *@Assert\Length(max="50",maxMessage="nom : au plus 50 car.")
@@ -48,8 +51,14 @@ class Produit {
     *@Assert\GreaterThan(value="0",message="Le prix doit être strictement positif.")
     */
     private $prix;
-   
+          
+    /**
+    * @ORM\ManyToOne(targetEntity="Categorie",inversedBy="tabProduit")
+    * @ORM\JoinColumn(name="id_categorie",referencedColumnName="id_categorie")
+    */
+    private $categorie;
     
+        
     function getId_produit() {
         return $this->id_produit;
     }
@@ -88,5 +97,19 @@ class Produit {
     
     function setImage($image) {
         $this->image = $image;
+    }
+    function getCategorie() {
+        return $this->categorie;
+    }
+
+    function setCategorie($categorie) {
+        $this->categorie = $categorie;
+    }
+   function getId_categorie() {
+        return $this->id_categorie;
+    }
+
+    function setId_categorie($id_categorie) {
+        $this->id_categorie = $id_categorie;
     }
 }

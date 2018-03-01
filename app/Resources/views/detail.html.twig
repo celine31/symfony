@@ -9,6 +9,7 @@
 {% set idImg = produit.id_Produit %}
 {% block body %} 
     {%include 'header.html.twig'%}
+    <div class="categorie"><a href="javascript:history.go(-1)">{{produit.categorie.nom}}</a> &gt; {{produit.nom}}</div>
     {% set idImg = file_exists('img/prod_'~produit.id_produit~'_p.jpg') ? produit.id_produit : 0 %}
      		<div id="container">
 			<div id="detailProduit">

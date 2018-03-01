@@ -16,7 +16,7 @@ a:hover{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: auto;
     padding-top:25px;
 }
@@ -27,10 +27,11 @@ a:hover{
 }
 .blocProduit{
     width: 400px;
-    margin: 0 10px 20px 10px;
-    padding: 5px;
+    margin: 0 0 20px 10px;
+    padding: 10px;
     background-color: #DDD;
     cursor: pointer;
+    height:300px;
 }
 .blocProduit img{
     float: left;
@@ -76,33 +77,34 @@ a:hover{
 }
 input{
     height:25px;
-    width:60px;
+    width:150px;
     margin:15px;
 }
 select{
     margin:15px;
 }
 input[type="text"]{
-    height:20px;
+    height:25px;
     width:150px;
 }
 input[type="submit"], input[type="button"]{
     width:150px;
+      height:25px;
     border-radius:10px;
+    margin-top:25px;
 }
 input[type="file"]{
     width:300px;  
     border-radius:10px; 
 }       
 #categorie{
-    margin-left:auto;
+    display:flex;
     margin-right:auto;
+    margin-top:25px;
     padding:10px;
     width:500px;
-    margin-left: 450px;
-    border:1px solid black;
     border-radius: 10px;
-    background-color: #dbd7e0;
+    background-color: white;
 }
 .erreur{
     color: red;
@@ -127,7 +129,13 @@ form #photo{
 h1{
     text-align:center;
 }
-button{
-    height: 50px;
-    width:150px;
+.prod{
+    border: 2px solid darkmagenta;
+    padding:20px;
+   }
+#produit_go{
+   width:150px;
+    border-radius:10px;
+    margin-top:25px;
+       height:25px;
 }
